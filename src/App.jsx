@@ -25,7 +25,28 @@ function App() {
     fetchTours();
   }, []);
 
-  return <main>{loading ? <Loading /> : <Tours tours={tours} />}</main>;
+  function removeTour(id) {
+    const newTours = tours.filter((tour) => tour.id !== id);
+    setTours(newTours);
+  }
+
+  if (tours.length === 0) {
+    return (
+      <main>
+        <div className="title">
+          <h2>No Tours Left</h2>
+          <button className="btn" onClick={fetchTours}>
+            Refresh
+          </button>
+        </div>
+      </main>
+    );
+  }
+  return (
+    <main>
+      {loading ? <Loading /> : <Tours tours={tours} removeTour={removeTour} />}
+    </main>
+  );
 }
 
 export default App;
